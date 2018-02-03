@@ -19,6 +19,5 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 // Prototype scope is needed because multiple instances of Verticle can be deployed
 @Scope(SCOPE_PROTOTYPE)
 public @interface Verticle {
-
     String deploymentOptionsBeanName() default "commonVerticleDeploymentOptions";
 }
