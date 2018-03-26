@@ -63,30 +63,10 @@
             <artifactId>vertx-hawkular-metrics</artifactId>
             <version>${vertx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-auth-jwt</artifactId>
-            <version>${vertx.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-hazelcast</artifactId>
-            <version>${vertx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-unit</artifactId>
-            <version>${vertx-unit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-mail-client</artifactId>
-            <version>${vertx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-health-check</artifactId>
             <version>${vertx.version}</version>
         </dependency>
 
@@ -144,6 +124,12 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
     </dependencies>
 
 
@@ -172,6 +158,37 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+
+            <plugin> <!-- DB migration tool -->
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <user>test</user>
+                    <password>test</password>
+                    <driver>net.sf.log4jdbc.DriverSpy</driver>
+                    <schemas>
+                        <schema>public</schema>
+                    </schemas>
+                    <url>jdbc:log4jdbc:postgresql://localhost:5432/test</url>
+                    <locations>
+                        <location>classpath:migration</location>
+                    </locations>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+
+                    <dependency> <!-- sql logging -->
+                        <groupId>com.googlecode.log4jdbc</groupId>
+                        <artifactId>log4jdbc</artifactId>
+                        <version>${log4jdbc.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
